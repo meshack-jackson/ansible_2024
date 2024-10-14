@@ -1,0 +1,8 @@
+# arrange device in a group
+
+[web_servers]
+hacker1@10.0.2.15
+
+[db_servers]  
+foxhacker1@10.0.2.15 
+

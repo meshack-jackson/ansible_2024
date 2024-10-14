@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: true
+  
+  pre_tasks:
+    - name: Update centos  dist
+      tags: Always
+      dnf:
+        update_only: yes
+        update_cache: latest
+      when: ansible_distribution == "centos"
+
+    - name: Update debian  dist
+      tags: Always
+      apt:
+        upgrade: dist
+        update_cache: latest
+      when: ansible_distribution == "debian"
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+    - name: Install Apache2 and PHP for Debian/Ubuntu
+      tags: apache,apache2,Debian
+      apt:
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Install httpd and PHP for CentOS
+      tags: apache,httpd,Centos
+      dnf:
+        name: 
+          - httpd
+          - php
+        state: latest
+      when: ansible_distribution == "CentOS"
+
