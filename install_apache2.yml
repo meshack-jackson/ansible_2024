@@ -1,18 +1,23 @@
----
 - hosts: all
   become: true
+
   tasks:
-    
-    - name: update  repository Index
+
+    - name: Install Apache2 and PHP for Debian/Ubuntu
       apt:
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
         update_cache: yes
+      when: ansible_distribution in ["Debian", "Ubuntu"]
 
-    - name: install apache2 package
-      apt:
-        name:  apache2
+    - name: Install httpd and PHP for CentOS
+      dnf:
+        name: 
+          - httpd
+          - php
         state: latest
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
 
-    - name: install libmodule for php
-      apt:
-        name: libapache2-mod-php
-        state: latest

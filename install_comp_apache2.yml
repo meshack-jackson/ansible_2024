@@ -1,0 +1,12 @@
+- hosts: all
+  become: true
+
+  tasks:
+
+    - name: Install Apache2(httpd) and PHP for  all distro
+      package:
+        name: 
+          - "{{apache_package}}"
+          - "{{apache_lib_package}}"
+        state: latest
+        update_cache: yes
